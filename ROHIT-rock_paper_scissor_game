@@ -1,0 +1,94 @@
+using System;
+
+namespace Test1
+{
+    /* Abstract class to represent participant*/
+    abstract class Participants{
+        protected int score;//scores 
+        public int getScore(){ return score; }//returns score
+        public void incScore(){score++;}//increament score
+        public abstract int choice();//select one of three choice {'scissor','rock','paper'}      
+    }
+
+    /* This class represents computer Bot*/
+    class Bot : Participants{
+        Random rnd;
+        public Bot(){
+            score = 0; rnd = new Random();
+        }
+
+        public override int choice(){
+            int rand_index=0;
+            rand_index = rnd.Next(1,4);
+
+            return rand_index;
+        }
+    }
+
+
+    /* This class represent player*/
+    class Player :Participants{
+        public Player(){
+            score = 0;
+        }
+
+        public override int choice()
+        {
+            int index=0;
+            Console.WriteLine("************************************************** ");
+            Console.WriteLine("PRESS:\t 1 TO SELECT SCISSOR \n\t 2 TO SELECT ROCK  \n\t 3 TO SELECT PAPER");
+            while (index < 1 || index > 3)//validate the option selected by user
+            {                
+                index = Convert.ToInt32(Console.ReadLine());
+                if (index < 1 || index > 3)
+                    Console.WriteLine("\n\tInvalid option");
+            }
+            return index;
+        }
+    }
+
+    /* This moderate the game*/
+    class Moderator
+    {
+        public static void Main(String[] args)
+        {
+            string[] choices = { "scissor", "rock", "paper" };
+            Bot bot = new Bot();
+            Player player = new Player();
+            char exit = 'y';
+
+            while (exit=='y'||exit=='Y')
+            {       int bot_index = bot.choice();
+                    int player_index = player.choice();
+                    string bot_choice = choices[bot_index - 1];
+                    string player_choice = choices[player_index - 1];
+                    while (bot_choice.Equals(player_choice)){
+                        bot_choice = choices[bot.choice() - 1];
+                    }
+
+                    if (bot_choice.Equals("scissor") && player_choice.Equals("paper")){
+                        bot.incScore();
+
+                    }
+                    else if (bot_choice.Equals("rock") && player_choice.Equals("scissor")){
+                        bot.incScore();
+                    }
+                    else if (bot_choice.Equals("paper") && player_choice.Equals("rock")){
+                        bot.incScore();
+                    }
+                    else{
+                        player.incScore();
+                    }
+                    Console.WriteLine( "\n\tPlayer score : "+player.getScore()+"       Bot score : " +bot.getScore() +"\n");
+                    Console.WriteLine("\tWHAT ABOUT TAKING ANOTHER SHOT ? \n\tPRESS 'y' if 'yes' \n\n");
+                
+                    exit = (char)Console.Read();
+                    Console.WriteLine("EXIT :************************************************** "+exit);
+                    Console.ReadLine();
+            }
+            Console.WriteLine("Exiting....");
+            Console.ReadKey(true);
+
+        }
+    }
+}
