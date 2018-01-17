@@ -20,7 +20,6 @@ namespace Test1
         public override int choice(){
             int rand_index=0;
             rand_index = rnd.Next(1,4);
-
             return rand_index;
         }
     }
@@ -32,8 +31,7 @@ namespace Test1
             score = 0;
         }
 
-        public override int choice()
-        {
+        public override int choice(){
             int index=0;
             Console.WriteLine("************************************************** ");
             Console.WriteLine("PRESS:\t 1 TO SELECT SCISSOR \n\t 2 TO SELECT ROCK  \n\t 3 TO SELECT PAPER");
@@ -41,7 +39,7 @@ namespace Test1
             {                
                 index = Convert.ToInt32(Console.ReadLine());
                 if (index < 1 || index > 3)
-                    Console.WriteLine("\n\tInvalid option");
+                    Console.WriteLine("\n\tInvalid option  *Enter Again*");
             }
             return index;
         }
